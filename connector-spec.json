@@ -1,0 +1,129 @@
+{
+    "name": "IdentityNow Roles 3.0",
+    "commands": [
+        "std:account:create",
+        "std:account:enable",
+        "std:account:disable",
+        "std:account:list",
+        "std:account:read",
+        "std:account:update",
+        "std:entitlement:list",
+        "std:entitlement:read",
+        "std:test-connection"
+    ],
+    "sourceConfig": [
+        {
+            "type": "section",
+            "items": [
+                {
+                    "key": "idnUrl",
+                    "label": "IdentityNow URL",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "key": "patId",
+                    "label": "Personal Access Token ID",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "key": "patSecret",
+                    "label": "Personal Access Token secret",
+                    "type": "secret",
+                    "required": true
+                }
+            ]
+        }
+    ],
+    "accountSchema": {
+        "displayAttribute": "name",
+        "identityAttribute": "name",
+        "groupAttribute": "roles",
+        "attributes": [
+            {
+                "name": "id",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "externalId",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "name",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "firstName",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "lastName",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "displayName",
+                "type": "string",
+                "description": ""
+            },
+            {
+                "name": "enabled",
+                "type": "boolean",
+                "description": ""
+            },
+            {
+                "name": "roles",
+                "type": "string",
+                "description": "",
+                "multi": true,
+                "entitlement": true,
+                "managed": true
+            }
+        ]
+    },
+    "entitlementSchemas": [
+        {
+            "type": "group",
+            "identityAttribute": "value",
+            "displayAttribute": "name",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "description": "name"
+                },
+                {
+                    "name": "value",
+                    "type": "string",
+                    "description": "value"
+                },
+                {
+                    "name": "description",
+                    "type": "string",
+                    "description": "description"
+                }
+            ]
+        }
+    ],
+    "accountCreateTemplate": {
+        "fields": [
+            {
+                "key": "name",
+                "label": "Name",
+                "type": "string",
+                "required": true,
+                "initialValue": {
+                    "type": "identityAttribute",
+                    "attributes": {
+                        "name": "uid"
+                    }
+                }
+            }
+        ]
+    }
+}
