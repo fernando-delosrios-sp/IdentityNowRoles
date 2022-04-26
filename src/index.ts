@@ -59,11 +59,14 @@ export const connector = async () => {
                 const response1 = await client.getAccountDetails(input.identity as string);
                 let account: Account = new Account(response1.data);
                 if (input.attributes.roles != null) {
-                    let role = input.attributes.roles === 'ORG_ADMIN' ? 'ADMIN' : input.attributes.roles;
-                    const response2 = await client.addEntitlement(account.attributes.id as string, role);
+                    let values: string[] = [].concat(input.attributes.roles).map((x: string) => x === 'ORG_ADMIN' ? 'ADMIN' : x);
+                    for (let value of values) {
+                        await client.addEntitlement(account.attributes.id as string, value);
+                        await sleep(SLEEP);
+                    }
                 }
-                const response3 = await client.getAccountDetails(input.identity as string);
-                account = new Account(response3.data);
+                const response2 = await client.getAccountDetails(input.identity as string);
+                account = new Account(response2.data);
                 res.send(account);
             }
         )
